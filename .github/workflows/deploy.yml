@@ -5,6 +5,11 @@ on:
   push:
     branches: ["main"] # Run this workflow every time we push to the main branch
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 # Step 2: Define the JOBS (What should the virtual machine do?)
 jobs:
   deploy:
