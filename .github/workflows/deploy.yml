@@ -1,0 +1,31 @@
+name: Deploy Website via CI/CD
+
+# Step 1: Define the TRIGGER (When should this run?)
+on:
+  push:
+    branches: ["main"] # Run this workflow every time we push to the main branch
+
+# Step 2: Define the JOBS (What should the virtual machine do?)
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # Give us a fresh, clean Linux virtual machine
+
+    steps:
+      # Step 2a: Bring our repository's code onto the Linux machine
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2b: Set up the GitHub Pages backend environment
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # Step 2c: Bundle our HTML/CSS files into a deployable artifact
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # Upload everything in the root directory
+
+      # Step 2d: The "CD" part—deploy the artifact to the live GitHub server
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
